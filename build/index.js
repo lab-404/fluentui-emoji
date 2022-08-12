@@ -1,5 +1,5 @@
-var glob = require('glob')
-var fs = require('fs')
+import glob from 'glob'
+import { readFile, writeFile } from 'fs/promises'
 
 glob('./assets/**/metadata.json', (err, files) => {
 
@@ -7,7 +7,7 @@ glob('./assets/**/metadata.json', (err, files) => {
 
     files.map((file, index) => {
 
-        fs.readFile(file, (err, file) => {
+        readFile(file, (err, file) => {
             let fileData = JSON.parse(file)
             data[fileData.glyph] = {
                 body: fileData.glyph,
@@ -16,7 +16,7 @@ glob('./assets/**/metadata.json', (err, files) => {
             }
 
             if (files.length == (index + 1)) {
-                fs.writeFile('./build/emojies.json', JSON.stringify(data), () => { })
+                writeFile('./build/emojies.json', JSON.stringify(data), () => { })
             }
         })
     })
